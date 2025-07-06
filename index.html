@@ -2,190 +2,464 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HUIYG.COM - 专业云计算服务平台</title>
+    <meta name="description" content="HUIYG.COM提供专业云计算服务解决方案，品牌域名开放合作">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☁️</text></svg>">
     
-    <!-- 预加载关键资源 -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" as="script">
-    
+    <!-- 内联所有样式保证加载速度 -->
     <style>
-        /* =============== 极简基础样式 =============== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        html {
-            font-size: 16px;
-            line-height: 1.5;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-            height: 100%;
-            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
+            color: #fff;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            color: #fff;
+            text-align: center;
             padding: 20px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #0c1a3a, #1a2a6c, #0c1a3a);
         }
         
-        /* =============== 主容器 =============== */
-        .main-container {
+        #particles-js {
+            position: absolute;
             width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        /* 加载动画 */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0c1a3a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-spinner {
+            width: 75px;
+            height: 75px;
+            border: 5px solid rgba(79, 195, 247, 0.3);
+            border-radius: 50%;
+            border-top-color: #4fc3f7;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .container {
             max-width: 800px;
+            background: rgba(10, 20, 40, 0.85);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             position: relative;
             z-index: 10;
-        }
-        
-        .content-box {
-            background: rgba(0, 0, 0, 0.75);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            margin: 0 auto;
-            width: calc(100% - 40px);
-        }
-        
-        /* =============== 头部内容 =============== */
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-top: 10px; /* 确保云图标可见 */
-        }
-        
-        .logo {
-            font-size: 4.5rem;
-            margin: 0 auto 15px;
-            color: #4fc3f7;
-            text-shadow: 0 0 15px rgba(79, 195, 247, 0.9);
-            animation: pulse 2s infinite ease-in-out;
-            display: block;
-            line-height: 1;
-            width: fit-content;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            margin: 20px;
         }
         
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 20px;
             color: #4fc3f7;
-            text-shadow: 0 0 8px rgba(79, 195, 247, 0.7);
-            line-height: 1.3;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
+            background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
-        .description {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            line-height: 1.6;
+        .logo {
+            font-size: clamp(3rem, 10vw, 5rem);
+            margin-bottom: 20px;
+            color: #4fc3f7;
+            text-shadow: 0 0 15px rgba(79, 195, 247, 0.9);
+            animation: pulse 2s infinite;
         }
         
-        /* =============== 广告区域 =============== */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            color: #4fc3f7;
+            font-weight: bold;
+        }
+        
+        .contact-btn {
+            background: linear-gradient(135deg, #0d47a1, #1976d2);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(13, 71, 161, 0.4);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .contact-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .contact-btn:hover:before {
+            left: 100%;
+        }
+        
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.6);
+        }
+        
+        .domain-notice {
+            background: rgba(16, 42, 92, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            border: 1px solid rgba(79, 195, 247, 0.5);
+            position: relative;
+        }
+        
+        .domain-notice:before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 1px solid #4fc3f7;
+            border-radius: 12px;
+            animation: borderPulse 3s infinite;
+            z-index: -1;
+        }
+        
+        @keyframes borderPulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.3; }
+        }
+        
+        footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #b0bec5;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* 广告容器样式 */
         .ad-container {
             margin: 20px auto;
-            max-width: 100%;
-            overflow: hidden;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 60, 120, 0.4);
+            border-radius: 8px;
+            padding: 10px;
         }
         
-        /* =============== 响应式调整 =============== */
-        @media (min-width: 768px) {
-            .content-box {
-                padding: 40px;
+        .ad-label {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: #b0bec5;
+        }
+        
+        /* 响应式优化 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
             }
-            .logo {
-                font-size: 5rem;
+            
+            .domain-notice {
+                padding: 15px;
             }
-            h1 {
-                font-size: 2.5rem;
+            
+            .contact-btn {
+                padding: 12px 24px;
             }
         }
         
         @media (max-width: 480px) {
             body {
-                padding: 15px;
+                padding: 10px;
             }
-            .content-box {
-                padding: 25px 20px;
-                width: calc(100% - 30px);
+            
+            .container {
+                margin: 10px;
+                padding: 15px 10px;
             }
+            
             .logo {
-                font-size: 4rem;
+                margin-bottom: 15px;
             }
         }
+        
+        /* 防内容盗用 */
+        .protect-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+        }
     </style>
+    
+    <!-- 安全相关meta标签 -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: www.google-analytics.com; connect-src 'self'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
 </head>
 <body>
-    <!-- 主内容 -->
-    <div class="main-container">
-        <div class="content-box">
-            <div class="header">
-                <div class="logo">☁️</div>
-                <h1>欢迎访问 HUIYG.COM</h1>
-                <p class="description">专业的 <strong style="color:#4fc3f7">云计算服务平台</strong> 即将上线</p>
-                <p class="description">我们正在构建强大的云服务解决方案</p>
-            </div>
-            
-            <div class="ad-container">
-                <!-- 广告内容 -->
-            </div>
+    <!-- 加载动画 -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+    
+    <!-- 防内容盗用覆盖层 -->
+    <div class="protect-overlay" id="protectOverlay"></div>
+    
+    <!-- 粒子背景容器 -->
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <div class="logo">☁️</div>
+        <h1>欢迎访问 HUIYG.COM</h1>
+        <p>专业的 <span class="highlight">云计算服务平台</span> 即将上线</p>
+        <p>我们正在构建强大的云服务解决方案</p>
+        <p>敬请期待我们的正式发布！</p>
+        
+        <!-- 顶部广告位 -->
+        <div class="ad-container">
+            <div class="ad-label">广告</div>
+            <div id="ad-top"></div>
         </div>
+        
+        <div class="domain-notice">
+            <p><strong>品牌域名合作机会</strong></p>
+            <p>HUIYG.COM 开放合作或转让</p>
+            <p>适合：云计算/跨境电商/科技品牌</p>
+        </div>
+        
+        <!-- 防爬联系方式 -->
+        <button class="contact-btn" id="contactBtn">获取联系方式</button>
+        <div id="contactInfo" style="display:none; margin-top:15px; padding:10px; background:rgba(0,0,0,0.3); border-radius:8px;">
+            <p>微信: <span id="wechatId">请添加: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.liamg@yguih</span></span></p>
+            <p>邮箱: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.gnuyiuh@olleh</span></p>
+        </div>
+        
+        <!-- 底部广告位 -->
+        <div class="ad-container">
+            <div class="ad-label">广告</div>
+            <div id="ad-bottom"></div>
+        </div>
+        
+        <footer>
+            <p>© 2015-2024 HUIYG.COM - 保留所有权利</p>
+            <p style="font-size:0.8rem; margin-top:5px;">网站加载时间: <span id="loadTime">0</span>ms</p>
+        </footer>
     </div>
 
-    <!-- 异步加载粒子效果 -->
+    <!-- 粒子背景库（精简版） -->
     <script>
-        // 立即显示内容，异步加载非关键资源
+        // 极简粒子背景实现
         document.addEventListener('DOMContentLoaded', function() {
-            // 加载粒子效果
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
-            script.onload = function() {
-                particlesJS("body", {
-                    particles: {
-                        number: { value: 60, density: { enable: true, value_area: 700 } },
-                        color: { value: "#4fc3f7" },
-                        shape: { type: "circle" },
-                        opacity: { value: 0.5, random: true },
-                        size: { value: 3, random: true },
-                        line_linked: { 
-                            enable: true, 
-                            distance: 140, 
-                            color: "#4fc3f7", 
-                            opacity: 0.4, 
-                            width: 1 
-                        },
-                        move: { 
-                            enable: true, 
-                            speed: 2.5,
-                            out_mode: "out" 
+            const startTime = performance.now();
+            
+            // 创建粒子背景
+            function initParticles() {
+                const canvas = document.createElement('canvas');
+                canvas.id = 'particles-canvas';
+                canvas.style.position = 'absolute';
+                canvas.style.top = '0';
+                canvas.style.left = '0';
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.style.zIndex = '0';
+                document.getElementById('particles-js').appendChild(canvas);
+                
+                const ctx = canvas.getContext('2d');
+                const particles = [];
+                const particleCount = window.innerWidth < 768 ? 30 : 50;
+                
+                // 设置canvas尺寸
+                function resizeCanvas() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                }
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas);
+                
+                // 创建粒子
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        size: Math.random() * 2 + 1,
+                        speedX: (Math.random() - 0.5) * 0.5,
+                        speedY: (Math.random() - 0.5) * 0.5,
+                        color: `rgba(79, 195, 247, ${Math.random() * 0.5 + 0.1})`
+                    });
+                }
+                
+                // 动画循环
+                function animate() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    // 更新和绘制粒子
+                    for (let i = 0; i < particles.length; i++) {
+                        const p = particles[i];
+                        
+                        // 移动粒子
+                        p.x += p.speedX;
+                        p.y += p.speedY;
+                        
+                        // 边界检查
+                        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                        
+                        // 绘制粒子
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color;
+                        ctx.fill();
+                        
+                        // 绘制粒子间的连线
+                        for (let j = i + 1; j < particles.length; j++) {
+                            const p2 = particles[j];
+                            const distance = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
+                            
+                            if (distance < 150) {
+                                ctx.beginPath();
+                                ctx.strokeStyle = `rgba(79, 195, 247, ${0.2 * (1 - distance/150)})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.stroke();
+                            }
                         }
                     }
-                });
+                    
+                    requestAnimationFrame(animate);
+                }
                 
-                // 添加粒子容器
-                const particlesDiv = document.createElement('div');
-                particlesDiv.id = 'particles-js';
-                particlesDiv.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: -1;
-                    pointer-events: none;
+                animate();
+            }
+            
+            // 初始化粒子系统
+            initParticles();
+            
+            // 加载完成后隐藏加载动画
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    document.getElementById('loader').classList.add('loader-hidden');
+                    
+                    // 显示加载时间
+                    const loadTime = performance.now() - startTime;
+                    document.getElementById('loadTime').textContent = Math.round(loadTime);
+                }, 800);
+            });
+            
+            // 防内容盗用保护
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                // 禁用 Ctrl+C, Ctrl+U, F12
+                if ((e.ctrlKey && (e.key === 'c' || e.key === 'u')) || e.key === 'F12') {
+                    e.preventDefault();
+                }
+            });
+            
+            // 防爬联系方式
+            document.getElementById('contactBtn').addEventListener('click', function() {
+                const contactInfo = document.getElementById('contactInfo');
+                if (contactInfo.style.display === 'none') {
+                    contactInfo.style.display = 'block';
+                    this.textContent = '隐藏联系方式';
+                } else {
+                    contactInfo.style.display = 'none';
+                    this.textContent = '获取联系方式';
+                }
+            });
+            
+            // 初始化广告系统
+            function initAds() {
+                // 顶部广告位
+                const adTop = document.getElementById('ad-top');
+                adTop.innerHTML = `
+                    <div style="padding:10px; color:#b0bec5; font-size:0.9rem;">
+                        <p>广告位招租 - 云计算相关服务优先</p>
+                        <p>联系微信: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.liamg@yguih</span></p>
+                    </div>
                 `;
-                document.body.appendChild(particlesDiv);
-            };
-            document.head.appendChild(script);
+                
+                // 底部广告位
+                const adBottom = document.getElementById('ad-bottom');
+                adBottom.innerHTML = `
+                    <a href="#" style="display:block; padding:10px; background:rgba(30,60,120,0.5); border-radius:6px; text-decoration:none; color:#4fc3f7;">
+                        <p>云服务器限时特惠</p>
+                        <p style="font-size:0.8rem; margin-top:5px;">腾讯云/阿里云/华为云专属折扣</p>
+                    </a>
+                `;
+            }
+            
+            // 初始化广告
+            initAds();
         });
     </script>
 </body>
