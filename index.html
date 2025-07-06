@@ -8,7 +8,6 @@
     <meta name="robots" content="index, follow">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☁️</text></svg>">
     
-    <!-- 内联所有样式保证加载速度 -->
     <style>
         * {
             margin: 0;
@@ -17,21 +16,43 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
             color: #fff;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             text-align: center;
             padding: 20px;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
             background: linear-gradient(135deg, #0c1a3a, #1a2a6c, #0c1a3a);
         }
         
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 20, 40, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #4fc3f7;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #29b6f6;
+        }
+        
         #particles-js {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             top: 0;
@@ -39,7 +60,6 @@
             z-index: 0;
         }
         
-        /* 加载动画 */
         .loader {
             position: fixed;
             top: 0;
@@ -187,14 +207,13 @@
         }
         
         footer {
-            margin-top: 30px;
+            margin: 30px 0 60px;
             font-size: 0.9rem;
             color: #b0bec5;
             padding-top: 15px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
         
-        /* 广告容器样式 */
         .ad-container {
             margin: 20px auto;
             max-width: 728px;
@@ -215,7 +234,42 @@
             color: #b0bec5;
         }
         
-        /* 响应式优化 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(79, 195, 247, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: rgba(79, 195, 247, 0.9);
+            transform: translateY(-3px);
+        }
+        
+        .back-to-top::after {
+            content: "↑";
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 20px 15px;
@@ -227,6 +281,17 @@
             
             .contact-btn {
                 padding: 12px 24px;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .back-to-top::after {
+                font-size: 20px;
             }
         }
         
@@ -245,7 +310,6 @@
             }
         }
         
-        /* 防内容盗用 */
         .protect-overlay {
             position: fixed;
             top: 0;
@@ -257,22 +321,18 @@
         }
     </style>
     
-    <!-- 安全相关meta标签 -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: www.google-analytics.com; connect-src 'self'">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
 </head>
 <body>
-    <!-- 加载动画 -->
     <div class="loader" id="loader">
         <div class="loader-spinner"></div>
     </div>
     
-    <!-- 防内容盗用覆盖层 -->
     <div class="protect-overlay" id="protectOverlay"></div>
     
-    <!-- 粒子背景容器 -->
     <div id="particles-js"></div>
     
     <div class="container">
@@ -282,7 +342,6 @@
         <p>我们正在构建强大的云服务解决方案</p>
         <p>敬请期待我们的正式发布！</p>
         
-        <!-- 顶部广告位 -->
         <div class="ad-container">
             <div class="ad-label">广告</div>
             <div id="ad-top"></div>
@@ -294,14 +353,12 @@
             <p>适合：云计算/跨境电商/科技品牌</p>
         </div>
         
-        <!-- 防爬联系方式 -->
         <button class="contact-btn" id="contactBtn">获取联系方式</button>
         <div id="contactInfo" style="display:none; margin-top:15px; padding:10px; background:rgba(0,0,0,0.3); border-radius:8px;">
             <p>微信: <span id="wechatId">请添加: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.liamg@yguih</span></span></p>
             <p>邮箱: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.gnuyiuh@olleh</span></p>
         </div>
         
-        <!-- 底部广告位 -->
         <div class="ad-container">
             <div class="ad-label">广告</div>
             <div id="ad-bottom"></div>
@@ -313,13 +370,12 @@
         </footer>
     </div>
 
-    <!-- 粒子背景库（精简版） -->
+    <div class="back-to-top" id="backToTop"></div>
+
     <script>
-        // 极简粒子背景实现
         document.addEventListener('DOMContentLoaded', function() {
             const startTime = performance.now();
             
-            // 创建粒子背景
             function initParticles() {
                 const canvas = document.createElement('canvas');
                 canvas.id = 'particles-canvas';
@@ -335,7 +391,6 @@
                 const particles = [];
                 const particleCount = window.innerWidth < 768 ? 30 : 50;
                 
-                // 设置canvas尺寸
                 function resizeCanvas() {
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
@@ -343,7 +398,6 @@
                 resizeCanvas();
                 window.addEventListener('resize', resizeCanvas);
                 
-                // 创建粒子
                 for (let i = 0; i < particleCount; i++) {
                     particles.push({
                         x: Math.random() * canvas.width,
@@ -355,29 +409,23 @@
                     });
                 }
                 
-                // 动画循环
                 function animate() {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     
-                    // 更新和绘制粒子
                     for (let i = 0; i < particles.length; i++) {
                         const p = particles[i];
                         
-                        // 移动粒子
                         p.x += p.speedX;
                         p.y += p.speedY;
                         
-                        // 边界检查
                         if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
                         if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
                         
-                        // 绘制粒子
                         ctx.beginPath();
                         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                         ctx.fillStyle = p.color;
                         ctx.fill();
                         
-                        // 绘制粒子间的连线
                         for (let j = i + 1; j < particles.length; j++) {
                             const p2 = particles[j];
                             const distance = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
@@ -399,33 +447,25 @@
                 animate();
             }
             
-            // 初始化粒子系统
             initParticles();
             
-            // 加载完成后隐藏加载动画
             window.addEventListener('load', function() {
                 setTimeout(function() {
                     document.getElementById('loader').classList.add('loader-hidden');
-                    
-                    // 显示加载时间
-                    const loadTime = performance.now() - startTime;
-                    document.getElementById('loadTime').textContent = Math.round(loadTime);
+                    document.getElementById('loadTime').textContent = Math.round(performance.now() - startTime);
                 }, 800);
             });
             
-            // 防内容盗用保护
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
             });
             
             document.addEventListener('keydown', function(e) {
-                // 禁用 Ctrl+C, Ctrl+U, F12
-                if ((e.ctrlKey && (e.key === 'c' || e.key === 'u')) || e.key === 'F12') {
+                if ((e.ctrlKey && (e.key === 'c' || e.key === 'u')) {
                     e.preventDefault();
                 }
             });
             
-            // 防爬联系方式
             document.getElementById('contactBtn').addEventListener('click', function() {
                 const contactInfo = document.getElementById('contactInfo');
                 if (contactInfo.style.display === 'none') {
@@ -437,9 +477,36 @@
                 }
             });
             
-            // 初始化广告系统
+            const backToTop = document.getElementById('backToTop');
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+            
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            function checkContentHeight() {
+                const container = document.querySelector('.container');
+                const windowHeight = window.innerHeight;
+                const containerHeight = container.offsetHeight;
+                
+                if (containerHeight < windowHeight - 100) {
+                    container.style.minHeight = (windowHeight - 200) + 'px';
+                }
+            }
+            
+            checkContentHeight();
+            window.addEventListener('resize', checkContentHeight);
+            
             function initAds() {
-                // 顶部广告位
                 const adTop = document.getElementById('ad-top');
                 adTop.innerHTML = `
                     <div style="padding:10px; color:#b0bec5; font-size:0.9rem;">
@@ -448,7 +515,6 @@
                     </div>
                 `;
                 
-                // 底部广告位
                 const adBottom = document.getElementById('ad-bottom');
                 adBottom.innerHTML = `
                     <a href="#" style="display:block; padding:10px; background:rgba(30,60,120,0.5); border-radius:6px; text-decoration:none; color:#4fc3f7;">
@@ -458,7 +524,6 @@
                 `;
             }
             
-            // 初始化广告
             initAds();
         });
     </script>
