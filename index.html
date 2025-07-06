@@ -74,7 +74,7 @@
             transition: opacity 0.5s, visibility 0.5s;
         }
         
-        .loader-hidden {
+        .loader.hidden {
             opacity: 0;
             visibility: hidden;
         }
@@ -373,158 +373,159 @@
     <div class="back-to-top" id="backToTop"></div>
 
     <script>
+        // 修复后的加载控制
         document.addEventListener('DOMContentLoaded', function() {
             const startTime = performance.now();
+            const loader = document.getElementById('loader');
             
-            function initParticles() {
-                const canvas = document.createElement('canvas');
-                canvas.id = 'particles-canvas';
-                canvas.style.position = 'absolute';
-                canvas.style.top = '0';
-                canvas.style.left = '0';
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.style.zIndex = '0';
-                document.getElementById('particles-js').appendChild(canvas);
-                
-                const ctx = canvas.getContext('2d');
-                const particles = [];
-                const particleCount = window.innerWidth < 768 ? 30 : 50;
-                
-                function resizeCanvas() {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                }
-                resizeCanvas();
-                window.addEventListener('resize', resizeCanvas);
-                
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        size: Math.random() * 2 + 1,
-                        speedX: (Math.random() - 0.5) * 0.5,
-                        speedY: (Math.random() - 0.5) * 0.5,
-                        color: `rgba(79, 195, 247, ${Math.random() * 0.5 + 0.1})`
-                    });
-                }
-                
-                function animate() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // 确保加载动画最终会消失
+            function hideLoader() {
+                loader.classList.add('hidden');
+                document.getElementById('loadTime').textContent = Math.round(performance.now() - startTime);
+            }
+            
+            // 主初始化函数
+            function init() {
+                try {
+                    // 1. 初始化粒子背景
+                    const canvas = document.createElement('canvas');
+                    canvas.id = 'particles-canvas';
+                    canvas.style.position = 'absolute';
+                    canvas.style.top = '0';
+                    canvas.style.left = '0';
+                    canvas.style.width = '100%';
+                    canvas.style.height = '100%';
+                    canvas.style.zIndex = '0';
+                    document.getElementById('particles-js').appendChild(canvas);
                     
-                    for (let i = 0; i < particles.length; i++) {
-                        const p = particles[i];
-                        
-                        p.x += p.speedX;
-                        p.y += p.speedY;
-                        
-                        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-                        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-                        
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                        ctx.fillStyle = p.color;
-                        ctx.fill();
-                        
-                        for (let j = i + 1; j < particles.length; j++) {
-                            const p2 = particles[j];
-                            const distance = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
-                            
-                            if (distance < 150) {
-                                ctx.beginPath();
-                                ctx.strokeStyle = `rgba(79, 195, 247, ${0.2 * (1 - distance/150)})`;
-                                ctx.lineWidth = 0.5;
-                                ctx.moveTo(p.x, p.y);
-                                ctx.lineTo(p2.x, p2.y);
-                                ctx.stroke();
-                            }
-                        }
+                    const ctx = canvas.getContext('2d');
+                    const particles = [];
+                    const particleCount = window.innerWidth < 768 ? 30 : 50;
+                    
+                    function resizeCanvas() {
+                        canvas.width = window.innerWidth;
+                        canvas.height = window.innerHeight;
+                    }
+                    resizeCanvas();
+                    
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push({
+                            x: Math.random() * canvas.width,
+                            y: Math.random() * canvas.height,
+                            size: Math.random() * 2 + 1,
+                            speedX: (Math.random() - 0.5) * 0.5,
+                            speedY: (Math.random() - 0.5) * 0.5,
+                            color: `rgba(79, 195, 247, ${Math.random() * 0.5 + 0.1})`
+                        });
                     }
                     
-                    requestAnimationFrame(animate);
+                    function animate() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        
+                        for (let i = 0; i < particles.length; i++) {
+                            const p = particles[i];
+                            p.x += p.speedX;
+                            p.y += p.speedY;
+                            
+                            if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                            if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                            
+                            ctx.beginPath();
+                            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                            ctx.fillStyle = p.color;
+                            ctx.fill();
+                            
+                            for (let j = i + 1; j < particles.length; j++) {
+                                const p2 = particles[j];
+                                const distance = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
+                                
+                                if (distance < 150) {
+                                    ctx.beginPath();
+                                    ctx.strokeStyle = `rgba(79, 195, 247, ${0.2 * (1 - distance/150)})`;
+                                    ctx.lineWidth = 0.5;
+                                    ctx.moveTo(p.x, p.y);
+                                    ctx.lineTo(p2.x, p2.y);
+                                    ctx.stroke();
+                                }
+                            }
+                        }
+                        
+                        requestAnimationFrame(animate);
+                    }
+                    
+                    animate();
+                    window.addEventListener('resize', resizeCanvas);
+                    
+                    // 2. 初始化其他功能
+                    const backToTop = document.getElementById('backToTop');
+                    window.addEventListener('scroll', function() {
+                        if (window.pageYOffset > 300) {
+                            backToTop.classList.add('visible');
+                        } else {
+                            backToTop.classList.remove('visible');
+                        }
+                    });
+                    
+                    backToTop.addEventListener('click', function() {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    });
+                    
+                    document.getElementById('contactBtn').addEventListener('click', function() {
+                        const contactInfo = document.getElementById('contactInfo');
+                        if (contactInfo.style.display === 'none') {
+                            contactInfo.style.display = 'block';
+                            this.textContent = '隐藏联系方式';
+                        } else {
+                            contactInfo.style.display = 'none';
+                            this.textContent = '获取联系方式';
+                        }
+                    });
+                    
+                    // 3. 初始化广告
+                    const adTop = document.getElementById('ad-top');
+                    adTop.innerHTML = `
+                        <div style="padding:10px; color:#b0bec5; font-size:0.9rem;">
+                            <p>广告位招租 - 云计算相关服务优先</p>
+                            <p>联系微信: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.liamg@yguih</span></p>
+                        </div>
+                    `;
+                    
+                    const adBottom = document.getElementById('ad-bottom');
+                    adBottom.innerHTML = `
+                        <a href="#" style="display:block; padding:10px; background:rgba(30,60,120,0.5); border-radius:6px; text-decoration:none; color:#4fc3f7;">
+                            <p>云服务器限时特惠</p>
+                            <p style="font-size:0.8rem; margin-top:5px;">腾讯云/阿里云/华为云专属折扣</p>
+                        </a>
+                    `;
+                    
+                    // 4. 设置加载完成标记
+                    setTimeout(hideLoader, 300); // 成功初始化后立即隐藏
+                    
+                } catch (error) {
+                    console.error('初始化错误:', error);
+                    setTimeout(hideLoader, 800); // 出错时延迟隐藏
                 }
-                
-                animate();
             }
             
-            initParticles();
+            // 启动初始化
+            init();
             
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    document.getElementById('loader').classList.add('loader-hidden');
-                    document.getElementById('loadTime').textContent = Math.round(performance.now() - startTime);
-                }, 800);
-            });
-            
-            document.addEventListener('contextmenu', function(e) {
+            // 双重保障：如果初始化未完成，最迟3秒后隐藏加载动画
+            setTimeout(hideLoader, 3000);
+        });
+        
+        // 安全防护
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
                 e.preventDefault();
-            });
-            
-            document.addEventListener('keydown', function(e) {
-                if ((e.ctrlKey && (e.key === 'c' || e.key === 'u')) {
-                    e.preventDefault();
-                }
-            });
-            
-            document.getElementById('contactBtn').addEventListener('click', function() {
-                const contactInfo = document.getElementById('contactInfo');
-                if (contactInfo.style.display === 'none') {
-                    contactInfo.style.display = 'block';
-                    this.textContent = '隐藏联系方式';
-                } else {
-                    contactInfo.style.display = 'none';
-                    this.textContent = '获取联系方式';
-                }
-            });
-            
-            const backToTop = document.getElementById('backToTop');
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
-            });
-            
-            backToTop.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-            
-            function checkContentHeight() {
-                const container = document.querySelector('.container');
-                const windowHeight = window.innerHeight;
-                const containerHeight = container.offsetHeight;
-                
-                if (containerHeight < windowHeight - 100) {
-                    container.style.minHeight = (windowHeight - 200) + 'px';
-                }
             }
-            
-            checkContentHeight();
-            window.addEventListener('resize', checkContentHeight);
-            
-            function initAds() {
-                const adTop = document.getElementById('ad-top');
-                adTop.innerHTML = `
-                    <div style="padding:10px; color:#b0bec5; font-size:0.9rem;">
-                        <p>广告位招租 - 云计算相关服务优先</p>
-                        <p>联系微信: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.liamg@yguih</span></p>
-                    </div>
-                `;
-                
-                const adBottom = document.getElementById('ad-bottom');
-                adBottom.innerHTML = `
-                    <a href="#" style="display:block; padding:10px; background:rgba(30,60,120,0.5); border-radius:6px; text-decoration:none; color:#4fc3f7;">
-                        <p>云服务器限时特惠</p>
-                        <p style="font-size:0.8rem; margin-top:5px;">腾讯云/阿里云/华为云专属折扣</p>
-                    </a>
-                `;
-            }
-            
-            initAds();
         });
     </script>
 </body>
