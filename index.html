@@ -7,324 +7,104 @@
     <meta name="description" content="HUIYG.COM提供专业云计算服务解决方案，品牌域名开放合作">
     <meta name="robots" content="index, follow">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☁️</text></svg>">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        html { scroll-behavior: smooth; }
         body {
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            text-align: center;
-            padding: 20px;
-            overflow-x: hidden;
-            position: relative;
+            color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; 
+            text-align: center; padding: 20px; overflow-x: hidden; position: relative;
             background: linear-gradient(135deg, #0c1a3a, #1a2a6c, #0c1a3a);
         }
-        
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(10, 20, 40, 0.5);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #4fc3f7;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #29b6f6;
-        }
-        
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(10, 20, 40, 0.5); }
+        ::-webkit-scrollbar-thumb { background: #4fc3f7; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #29b6f6; }
+        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
         .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0c1a3a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0c1a3a;
+            display: flex; justify-content: center; align-items: center; z-index: 1000;
             transition: opacity 0.5s, visibility 0.5s;
         }
-        
-        .loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
+        .loader.hidden { opacity: 0; visibility: hidden; }
         .loader-spinner {
-            width: 75px;
-            height: 75px;
-            border: 5px solid rgba(79, 195, 247, 0.3);
-            border-radius: 50%;
-            border-top-color: #4fc3f7;
-            animation: spin 1s ease-in-out infinite;
+            width: 75px; height: 75px; border: 5px solid rgba(79, 195, 247, 0.3);
+            border-radius: 50%; border-top-color: #4fc3f7; animation: spin 1s ease-in-out infinite;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
+        @keyframes spin { to { transform: rotate(360deg); } }
         .container {
-            max-width: 800px;
-            background: rgba(10, 20, 40, 0.85);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            position: relative;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            margin: 20px;
+            max-width: 800px; background: rgba(10, 20, 40, 0.85); padding: 30px; border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); position: relative; z-index: 10;
+            backdrop-filter: blur(10px); border: 1px solid rgba(79, 195, 247, 0.3); margin: 20px;
         }
-        
         h1 {
-            font-size: clamp(2rem, 5vw, 2.8rem);
-            margin-bottom: 20px;
-            color: #4fc3f7;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
-            background: linear-gradient(90deg, #4fc3f7, #29b6f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: clamp(2rem, 5vw, 2.8rem); margin-bottom: 20px; color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.7); background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        
         .logo {
-            font-size: clamp(3rem, 10vw, 5rem);
-            margin-bottom: 20px;
-            color: #4fc3f7;
-            text-shadow: 0 0 15px rgba(79, 195, 247, 0.9);
-            animation: pulse 2s infinite;
+            font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 20px; color: #4fc3f7;
+            text-shadow: 0 0 15px rgba(79, 195, 247, 0.9); animation: pulse 2s infinite;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        p {
-            font-size: clamp(1rem, 2.5vw, 1.4rem);
-            margin-bottom: 20px;
-            line-height: 1.7;
-        }
-        
-        .highlight {
-            color: #4fc3f7;
-            font-weight: bold;
-        }
-        
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        p { font-size: clamp(1rem, 2.5vw, 1.4rem); margin-bottom: 20px; line-height: 1.7; }
+        .highlight { color: #4fc3f7; font-weight: bold; }
         .contact-btn {
-            background: linear-gradient(135deg, #0d47a1, #1976d2);
-            color: white;
-            padding: 14px 28px;
-            border: none;
-            border-radius: 50px;
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(13, 71, 161, 0.4);
-            font-weight: 600;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            background: linear-gradient(135deg, #0d47a1, #1976d2); color: white; padding: 14px 28px;
+            border: none; border-radius: 50px; font-size: clamp(1rem, 2.5vw, 1.3rem); cursor: pointer;
+            margin-top: 20px; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(13, 71, 161, 0.4);
+            font-weight: 600; position: relative; overflow: hidden; z-index: 1;
         }
-        
         .contact-btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-            z-index: -1;
+            transition: 0.5s; z-index: -1;
         }
-        
-        .contact-btn:hover:before {
-            left: 100%;
-        }
-        
-        .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(25, 118, 210, 0.6);
-        }
-        
+        .contact-btn:hover:before { left: 100%; }
+        .contact-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(25, 118, 210, 0.6); }
         .domain-notice {
-            background: rgba(16, 42, 92, 0.6);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 25px;
-            border: 1px solid rgba(79, 195, 247, 0.5);
-            position: relative;
+            background: rgba(16, 42, 92, 0.6); padding: 20px; border-radius: 10px; margin-top: 25px;
+            border: 1px solid rgba(79, 195, 247, 0.5); position: relative;
         }
-        
         .domain-notice:before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            border: 1px solid #4fc3f7;
-            border-radius: 12px;
-            animation: borderPulse 3s infinite;
-            z-index: -1;
+            content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border: 1px solid #4fc3f7; border-radius: 12px; animation: borderPulse 3s infinite; z-index: -1;
         }
-        
-        @keyframes borderPulse {
-            0% { opacity: 0.3; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.3; }
-        }
-        
-        footer {
-            margin: 30px 0 60px;
-            font-size: 0.9rem;
-            color: #b0bec5;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
+        @keyframes borderPulse { 0% { opacity: 0.3; } 50% { opacity: 0.8; } 100% { opacity: 0.3; } }
+        footer { margin: 30px 0 60px; font-size: 0.9rem; color: #b0bec5; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
         .ad-container {
-            margin: 20px auto;
-            max-width: 728px;
-            min-height: 90px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(30, 60, 120, 0.4);
-            border-radius: 8px;
-            padding: 10px;
+            margin: 20px auto; max-width: 728px; min-height: 90px; display: flex;
+            justify-content: center; align-items: center; background: rgba(30, 60, 120, 0.4);
+            border-radius: 8px; padding: 10px;
         }
-        
-        .ad-label {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 0.7rem;
-            color: #b0bec5;
-        }
-        
+        .ad-label { position: absolute; top: 5px; right: 5px; font-size: 0.7rem; color: #b0bec5; }
         .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: rgba(79, 195, 247, 0.7);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background: rgba(79, 195, 247, 0.7); border-radius: 50%; display: flex;
+            justify-content: center; align-items: center; cursor: pointer; opacity: 0;
+            visibility: hidden; transition: all 0.3s; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
-        
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .back-to-top:hover {
-            background: rgba(79, 195, 247, 0.9);
-            transform: translateY(-3px);
-        }
-        
-        .back-to-top::after {
-            content: "↑";
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+        .back-to-top:hover { background: rgba(79, 195, 247, 0.9); transform: translateY(-3px); }
+        .back-to-top::after { content: "↑"; color: white; font-size: 24px; font-weight: bold; }
         @media (max-width: 768px) {
-            .container {
-                padding: 20px 15px;
-            }
-            
-            .domain-notice {
-                padding: 15px;
-            }
-            
-            .contact-btn {
-                padding: 12px 24px;
-            }
-            
-            .back-to-top {
-                bottom: 20px;
-                right: 20px;
-                width: 40px;
-                height: 40px;
-            }
-            
-            .back-to-top::after {
-                font-size: 20px;
-            }
+            .container { padding: 20px 15px; }
+            .domain-notice { padding: 15px; }
+            .contact-btn { padding: 12px 24px; }
+            .back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
+            .back-to-top::after { font-size: 20px; }
         }
-        
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                margin: 10px;
-                padding: 15px 10px;
-            }
-            
-            .logo {
-                margin-bottom: 15px;
-            }
+            body { padding: 10px; }
+            .container { margin: 10px; padding: 15px 10px; }
+            .logo { margin-bottom: 15px; }
         }
-        
         .protect-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; pointer-events: none;
         }
     </style>
-    
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: www.google-analytics.com; connect-src 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
 </head>
 <body>
     <div class="loader" id="loader">
@@ -332,7 +112,6 @@
     </div>
     
     <div class="protect-overlay" id="protectOverlay"></div>
-    
     <div id="particles-js"></div>
     
     <div class="container">
@@ -366,48 +145,54 @@
         
         <footer>
             <p>© 2015-2024 HUIYG.COM - 保留所有权利</p>
-            <p style="font-size:0.8rem; margin-top:5px;">网站加载时间: <span id="loadTime">0</span>ms</p>
+            <p style="font-size:0.8rem; margin-top:5px;">页面加载完成耗时: <span id="loadTime">0</span> ms</p>
         </footer>
     </div>
 
     <div class="back-to-top" id="backToTop"></div>
 
     <script>
-        // 修复后的加载控制
-        document.addEventListener('DOMContentLoaded', function() {
+        (function() {
             const startTime = performance.now();
             const loader = document.getElementById('loader');
             
-            // 确保加载动画最终会消失
-            function hideLoader() {
-                loader.classList.add('hidden');
-                document.getElementById('loadTime').textContent = Math.round(performance.now() - startTime);
-            }
+            // 性能优化：使用requestIdleCallback初始化非关键资源
+            const initNonCritical = () => {
+                // 广告初始化等非关键操作可以放在这里
+                document.getElementById('ad-top').innerHTML = `
+                    <div style="padding:10px; color:#b0bec5; font-size:0.9rem;">
+                        <p>广告位招租 - 云计算相关服务优先</p>
+                        <p>联系微信: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.liamg@yguih</span></p>
+                    </div>
+                `;
+                
+                document.getElementById('ad-bottom').innerHTML = `
+                    <a href="#" style="display:block; padding:10px; background:rgba(30,60,120,0.5); border-radius:6px; text-decoration:none; color:#4fc3f7;">
+                        <p>云服务器限时特惠</p>
+                        <p style="font-size:0.8rem; margin-top:5px;">腾讯云/阿里云/华为云专属折扣</p>
+                    </a>
+                `;
+            };
             
-            // 主初始化函数
-            function init() {
+            // 关键初始化函数
+            const initCritical = () => {
                 try {
                     // 1. 初始化粒子背景
                     const canvas = document.createElement('canvas');
                     canvas.id = 'particles-canvas';
-                    canvas.style.position = 'absolute';
-                    canvas.style.top = '0';
-                    canvas.style.left = '0';
-                    canvas.style.width = '100%';
-                    canvas.style.height = '100%';
-                    canvas.style.zIndex = '0';
                     document.getElementById('particles-js').appendChild(canvas);
                     
                     const ctx = canvas.getContext('2d');
                     const particles = [];
                     const particleCount = window.innerWidth < 768 ? 30 : 50;
                     
-                    function resizeCanvas() {
+                    const resizeCanvas = () => {
                         canvas.width = window.innerWidth;
                         canvas.height = window.innerHeight;
-                    }
+                    };
                     resizeCanvas();
                     
+                    // 创建粒子
                     for (let i = 0; i < particleCount; i++) {
                         particles.push({
                             x: Math.random() * canvas.width,
@@ -419,11 +204,11 @@
                         });
                     }
                     
-                    function animate() {
+                    // 动画循环
+                    const animate = () => {
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                         
-                        for (let i = 0; i < particles.length; i++) {
-                            const p = particles[i];
+                        particles.forEach(p => {
                             p.x += p.speedX;
                             p.y += p.speedY;
                             
@@ -434,16 +219,20 @@
                             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                             ctx.fillStyle = p.color;
                             ctx.fill();
-                            
+                        });
+                        
+                        // 绘制连接线
+                        for (let i = 0; i < particles.length; i++) {
                             for (let j = i + 1; j < particles.length; j++) {
+                                const p1 = particles[i];
                                 const p2 = particles[j];
-                                const distance = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
+                                const distance = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
                                 
                                 if (distance < 150) {
                                     ctx.beginPath();
                                     ctx.strokeStyle = `rgba(79, 195, 247, ${0.2 * (1 - distance/150)})`;
                                     ctx.lineWidth = 0.5;
-                                    ctx.moveTo(p.x, p.y);
+                                    ctx.moveTo(p1.x, p1.y);
                                     ctx.lineTo(p2.x, p2.y);
                                     ctx.stroke();
                                 }
@@ -451,82 +240,66 @@
                         }
                         
                         requestAnimationFrame(animate);
-                    }
+                    };
                     
                     animate();
                     window.addEventListener('resize', resizeCanvas);
                     
-                    // 2. 初始化其他功能
+                    // 2. 返回顶部按钮
                     const backToTop = document.getElementById('backToTop');
-                    window.addEventListener('scroll', function() {
-                        if (window.pageYOffset > 300) {
-                            backToTop.classList.add('visible');
-                        } else {
-                            backToTop.classList.remove('visible');
-                        }
+                    window.addEventListener('scroll', () => {
+                        backToTop.classList.toggle('visible', window.scrollY > 300);
                     });
                     
-                    backToTop.addEventListener('click', function() {
-                        window.scrollTo({
-                            top: 0,
-                            behavior: 'smooth'
-                        });
+                    backToTop.addEventListener('click', () => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                     });
                     
+                    // 3. 联系方式切换
                     document.getElementById('contactBtn').addEventListener('click', function() {
                         const contactInfo = document.getElementById('contactInfo');
-                        if (contactInfo.style.display === 'none') {
-                            contactInfo.style.display = 'block';
-                            this.textContent = '隐藏联系方式';
-                        } else {
-                            contactInfo.style.display = 'none';
-                            this.textContent = '获取联系方式';
-                        }
+                        const isHidden = contactInfo.style.display === 'none';
+                        contactInfo.style.display = isHidden ? 'block' : 'none';
+                        this.textContent = isHidden ? '隐藏联系方式' : '获取联系方式';
                     });
                     
-                    // 3. 初始化广告
-                    const adTop = document.getElementById('ad-top');
-                    adTop.innerHTML = `
-                        <div style="padding:10px; color:#b0bec5; font-size:0.9rem;">
-                            <p>广告位招租 - 云计算相关服务优先</p>
-                            <p>联系微信: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.liamg@yguih</span></p>
-                        </div>
-                    `;
-                    
-                    const adBottom = document.getElementById('ad-bottom');
-                    adBottom.innerHTML = `
-                        <a href="#" style="display:block; padding:10px; background:rgba(30,60,120,0.5); border-radius:6px; text-decoration:none; color:#4fc3f7;">
-                            <p>云服务器限时特惠</p>
-                            <p style="font-size:0.8rem; margin-top:5px;">腾讯云/阿里云/华为云专属折扣</p>
-                        </a>
-                    `;
-                    
-                    // 4. 设置加载完成标记
-                    setTimeout(hideLoader, 300); // 成功初始化后立即隐藏
-                    
-                } catch (error) {
-                    console.error('初始化错误:', error);
-                    setTimeout(hideLoader, 800); // 出错时延迟隐藏
+                    return true; // 初始化成功
+                } catch (e) {
+                    console.error('初始化错误:', e);
+                    return false; // 初始化失败
                 }
+            };
+            
+            // 隐藏加载动画
+            const hideLoader = () => {
+                const loadTime = performance.now() - startTime;
+                document.getElementById('loadTime').textContent = Math.round(loadTime);
+                loader.classList.add('hidden');
+                
+                // 初始化非关键资源
+                requestIdleCallback(initNonCritical);
+            };
+            
+            // 启动关键初始化
+            if (initCritical()) {
+                // 关键资源加载成功，立即隐藏加载动画
+                setTimeout(hideLoader, 300);
+            } else {
+                // 关键资源加载失败，延迟隐藏
+                setTimeout(hideLoader, 800);
             }
             
-            // 启动初始化
-            init();
-            
-            // 双重保障：如果初始化未完成，最迟3秒后隐藏加载动画
+            // 最终保障：3秒后强制隐藏
             setTimeout(hideLoader, 3000);
-        });
-        
-        // 安全防护
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-        
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-                e.preventDefault();
-            }
-        });
+            
+            // 安全防护
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('keydown', e => {
+                if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                    e.preventDefault();
+                }
+            });
+        })();
     </script>
 </body>
 </html>
