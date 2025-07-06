@@ -7,6 +7,8 @@
     <meta name="description" content="HUIYG.COM提供专业云计算服务解决方案，品牌域名开放合作">
     <meta name="robots" content="index, follow">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☁️</text></svg>">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0c1a3a">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         html { scroll-behavior: smooth; }
@@ -22,13 +24,21 @@
         #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
         .loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0c1a3a;
-            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000;
             transition: opacity 0.5s, visibility 0.5s;
         }
         .loader.hidden { opacity: 0; visibility: hidden; }
         .loader-spinner {
             width: 75px; height: 75px; border: 5px solid rgba(79, 195, 247, 0.3);
             border-radius: 50%; border-top-color: #4fc3f7; animation: spin 1s ease-in-out infinite;
+        }
+        .loader-progress {
+            width: 80%; max-width: 300px; height: 4px; background: rgba(79, 195, 247, 0.2);
+            margin-top: 20px; border-radius: 2px; overflow: hidden;
+        }
+        .loader-progress-bar {
+            height: 100%; width: 0%; background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+            transition: width 0.3s;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         .container {
@@ -48,6 +58,19 @@
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         p { font-size: clamp(1rem, 2.5vw, 1.4rem); margin-bottom: 20px; line-height: 1.7; }
         .highlight { color: #4fc3f7; font-weight: bold; }
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px; margin: 25px 0;
+        }
+        .service-card {
+            background: rgba(30, 60, 120, 0.4); padding: 20px; border-radius: 10px;
+            transition: all 0.3s ease; border: 1px solid rgba(79, 195, 247, 0.2);
+        }
+        .service-card:hover {
+            transform: translateY(-5px); background: rgba(30, 60, 120, 0.6);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.3);
+        }
+        .service-icon { font-size: 2.5rem; margin-bottom: 10px; }
         .contact-btn {
             background: linear-gradient(135deg, #0d47a1, #1976d2); color: white; padding: 14px 28px;
             border: none; border-radius: 50px; font-size: clamp(1rem, 2.5vw, 1.3rem); cursor: pointer;
@@ -61,6 +84,25 @@
         }
         .contact-btn:hover:before { left: 100%; }
         .contact-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(25, 118, 210, 0.6); }
+        #contactForm {
+            display: flex; flex-direction: column; gap: 15px; margin-top: 20px;
+        }
+        #contactForm input, #contactForm textarea {
+            padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(79, 195, 247, 0.3);
+            background: rgba(10, 20, 40, 0.7); color: white; font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        #contactForm input:focus, #contactForm textarea:focus {
+            outline: none; border-color: #4fc3f7; box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.3);
+        }
+        #contactForm button[type="submit"] {
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6); color: #0c1a3a;
+            padding: 12px; border: none; border-radius: 8px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        #contactForm button[type="submit"]:hover {
+            transform: translateY(-2px); box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
+        }
         .domain-notice {
             background: rgba(16, 42, 92, 0.6); padding: 20px; border-radius: 10px; margin-top: 25px;
             border: 1px solid rgba(79, 195, 247, 0.5); position: relative;
@@ -74,7 +116,7 @@
         .ad-container {
             margin: 20px auto; max-width: 728px; min-height: 90px; display: flex;
             justify-content: center; align-items: center; background: rgba(30, 60, 120, 0.4);
-            border-radius: 8px; padding: 10px;
+            border-radius: 8px; padding: 10px; position: relative;
         }
         .ad-label { position: absolute; top: 5px; right: 5px; font-size: 0.7rem; color: #b0bec5; }
         .back-to-top {
@@ -97,6 +139,7 @@
             body { padding: 10px; }
             .container { margin: 10px; padding: 15px 10px; }
             .logo { margin-bottom: 15px; }
+            .services-grid { grid-template-columns: 1fr; }
         }
         .protect-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; pointer-events: none;
@@ -109,6 +152,9 @@
 <body>
     <div class="loader" id="loader">
         <div class="loader-spinner"></div>
+        <div class="loader-progress">
+            <div class="loader-progress-bar" id="loaderProgress"></div>
+        </div>
     </div>
     
     <div class="protect-overlay" id="protectOverlay"></div>
@@ -119,7 +165,29 @@
         <h1>欢迎访问 HUIYG.COM</h1>
         <p>专业的 <span class="highlight">云计算服务平台</span> 即将上线</p>
         <p>我们正在构建强大的云服务解决方案</p>
-        <p>敬请期待我们的正式发布！</p>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🖥️</div>
+                <h3>云服务器</h3>
+                <p>高性能计算实例，弹性伸缩</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🗄️</div>
+                <h3>云存储</h3>
+                <p>安全可靠的数据存储服务</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🌐</div>
+                <h3>CDN加速</h3>
+                <p>全球节点，极速内容分发</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔒</div>
+                <h3>云安全</h3>
+                <p>全方位网络安全防护</p>
+            </div>
+        </div>
         
         <div class="ad-container">
             <div class="ad-label">广告</div>
@@ -133,10 +201,7 @@
         </div>
         
         <button class="contact-btn" id="contactBtn">获取联系方式</button>
-        <div id="contactInfo" style="display:none; margin-top:15px; padding:10px; background:rgba(0,0,0,0.3); border-radius:8px;">
-            <p>微信: <span id="wechatId">请添加: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.liamg@yguih</span></span></p>
-            <p>邮箱: <span style="unicode-bidi:bidi-override; direction:rtl;">moc.gnuyiuh@olleh</span></p>
-        </div>
+        <div id="contactInfo" style="display:none;"></div>
         
         <div class="ad-container">
             <div class="ad-label">广告</div>
@@ -155,10 +220,19 @@
         (function() {
             const startTime = performance.now();
             const loader = document.getElementById('loader');
+            const progressBar = document.getElementById('loaderProgress');
+            
+            // 模拟加载进度
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 10;
+                if(progress > 90) clearInterval(progressInterval);
+                progressBar.style.width = `${Math.min(progress, 100)}%`;
+            }, 100);
             
             // 性能优化：使用requestIdleCallback初始化非关键资源
             const initNonCritical = () => {
-                // 广告初始化等非关键操作可以放在这里
+                // 广告初始化
                 document.getElementById('ad-top').innerHTML = `
                     <div style="padding:10px; color:#b0bec5; font-size:0.9rem;">
                         <p>广告位招租 - 云计算相关服务优先</p>
@@ -200,7 +274,27 @@
                             size: Math.random() * 2 + 1,
                             speedX: (Math.random() - 0.5) * 0.5,
                             speedY: (Math.random() - 0.5) * 0.5,
-                            color: `rgba(79, 195, 247, ${Math.random() * 0.5 + 0.1})`
+                            color: `rgba(79, 195, 247, ${Math.random() * 0.5 + 0.1})`,
+                            life: Math.random() * 300 + 100,
+                            update: function() {
+                                this.x += this.speedX;
+                                this.y += this.speedY;
+                                this.life--;
+                                
+                                if(this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                                    this.x = Math.random() * canvas.width;
+                                    this.y = Math.random() * canvas.height;
+                                    this.life = Math.random() * 300 + 100;
+                                }
+                                
+                                // 随机运动变化
+                                this.speedX += (Math.random() - 0.5) * 0.02;
+                                this.speedY += (Math.random() - 0.5) * 0.02;
+                                
+                                // 限制速度范围
+                                this.speedX = Math.max(-1, Math.min(1, this.speedX));
+                                this.speedY = Math.max(-1, Math.min(1, this.speedY));
+                            }
                         });
                     }
                     
@@ -209,11 +303,7 @@
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                         
                         particles.forEach(p => {
-                            p.x += p.speedX;
-                            p.y += p.speedY;
-                            
-                            if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-                            if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                            p.update();
                             
                             ctx.beginPath();
                             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -255,13 +345,44 @@
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     });
                     
-                    // 3. 联系方式切换
+                    // 3. 联系方式表单
+                    const contactFormHTML = `
+                        <form id="contactForm">
+                            <input type="text" placeholder="您的姓名" required>
+                            <input type="email" placeholder="电子邮箱" required>
+                            <textarea placeholder="合作意向" rows="3" required></textarea>
+                            <button type="submit">发送咨询</button>
+                        </form>
+                    `;
+                    
                     document.getElementById('contactBtn').addEventListener('click', function() {
-                        const contactInfo = document.getElementById('contactInfo');
-                        const isHidden = contactInfo.style.display === 'none';
-                        contactInfo.style.display = isHidden ? 'block' : 'none';
-                        this.textContent = isHidden ? '隐藏联系方式' : '获取联系方式';
+                        const container = document.getElementById('contactInfo');
+                        if(container.style.display === 'none') {
+                            container.innerHTML = contactFormHTML;
+                            container.style.display = 'block';
+                            this.textContent = '隐藏联系方式';
+                            
+                            // 表单提交处理
+                            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                alert('感谢您的咨询，我们会尽快与您联系！');
+                                container.style.display = 'none';
+                                document.getElementById('contactBtn').textContent = '获取联系方式';
+                            });
+                        } else {
+                            container.style.display = 'none';
+                            this.textContent = '获取联系方式';
+                        }
                     });
+                    
+                    // 注册Service Worker
+                    if('serviceWorker' in navigator) {
+                        window.addEventListener('load', () => {
+                            navigator.serviceWorker.register('/sw.js').catch(err => {
+                                console.log('SW注册失败: ', err);
+                            });
+                        });
+                    }
                     
                     return true; // 初始化成功
                 } catch (e) {
@@ -272,21 +393,27 @@
             
             // 隐藏加载动画
             const hideLoader = () => {
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+                
                 const loadTime = performance.now() - startTime;
                 document.getElementById('loadTime').textContent = Math.round(loadTime);
-                loader.classList.add('hidden');
                 
-                // 初始化非关键资源
-                requestIdleCallback(initNonCritical);
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    
+                    // 初始化非关键资源
+                    requestIdleCallback(initNonCritical);
+                }, 300);
             };
             
             // 启动关键初始化
             if (initCritical()) {
-                // 关键资源加载成功，立即隐藏加载动画
-                setTimeout(hideLoader, 300);
+                // 关键资源加载成功，延迟隐藏加载动画
+                setTimeout(hideLoader, 800);
             } else {
                 // 关键资源加载失败，延迟隐藏
-                setTimeout(hideLoader, 800);
+                setTimeout(hideLoader, 1500);
             }
             
             // 最终保障：3秒后强制隐藏
