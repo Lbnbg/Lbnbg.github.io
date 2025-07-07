@@ -24,13 +24,21 @@
         #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
         .loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0c1a3a;
-            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000;
             transition: opacity 0.5s, visibility 0.5s;
         }
         .loader.hidden { opacity: 0; visibility: hidden; }
         .loader-spinner {
             width: 75px; height: 75px; border: 5px solid rgba(79, 195, 247, 0.3);
             border-radius: 50%; border-top-color: #4fc3f7; animation: spin 1s ease-in-out infinite;
+        }
+        .loader-progress {
+            width: 80%; max-width: 300px; height: 4px; background: rgba(79, 195, 247, 0.2);
+            margin-top: 20px; border-radius: 2px; overflow: hidden;
+        }
+        .loader-progress-bar {
+            height: 100%; width: 0%; background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+            transition: width 0.3s;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         .container {
@@ -144,6 +152,9 @@
 <body>
     <div class="loader" id="loader">
         <div class="loader-spinner"></div>
+        <div class="loader-progress">
+            <div class="loader-progress-bar" id="loaderProgress"></div>
+        </div>
     </div>
     
     <div class="protect-overlay" id="protectOverlay"></div>
@@ -209,6 +220,15 @@
         (function() {
             const startTime = performance.now();
             const loader = document.getElementById('loader');
+            const progressBar = document.getElementById('loaderProgress');
+            
+            // 模拟加载进度
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 10;
+                if(progress > 90) clearInterval(progressInterval);
+                progressBar.style.width = `${Math.min(progress, 100)}%`;
+            }, 100);
             
             // 性能优化：使用requestIdleCallback初始化非关键资源
             const initNonCritical = () => {
@@ -373,13 +393,18 @@
             
             // 隐藏加载动画
             const hideLoader = () => {
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+                
                 const loadTime = performance.now() - startTime;
                 document.getElementById('loadTime').textContent = Math.round(loadTime);
                 
-                loader.classList.add('hidden');
-                
-                // 初始化非关键资源
-                requestIdleCallback(initNonCritical);
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    
+                    // 初始化非关键资源
+                    requestIdleCallback(initNonCritical);
+                }, 300);
             };
             
             // 启动关键初始化
