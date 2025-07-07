@@ -25,7 +25,7 @@
         .loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0c1a3a;
             display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000;
-            transition: opacity 0.5s, visibility 0.5s;
+            transition: opacity 0.3s, visibility 0.3s;
         }
         .loader.hidden { opacity: 0; visibility: hidden; }
         .loader-spinner {
@@ -38,7 +38,7 @@
         }
         .loader-progress-bar {
             height: 100%; width: 0%; background: linear-gradient(90deg, #4fc3f7, #29b6f6);
-            transition: width 0.3s;
+            transition: width 0.2s;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
         .container {
@@ -222,13 +222,13 @@
             const loader = document.getElementById('loader');
             const progressBar = document.getElementById('loaderProgress');
             
-            // 模拟加载进度
+            // 更快的加载进度模拟
             let progress = 0;
             const progressInterval = setInterval(() => {
-                progress += Math.random() * 10;
+                progress += Math.random() * 30;
                 if(progress > 90) clearInterval(progressInterval);
                 progressBar.style.width = `${Math.min(progress, 100)}%`;
-            }, 100);
+            }, 50);
             
             // 性能优化：使用requestIdleCallback初始化非关键资源
             const initNonCritical = () => {
@@ -384,14 +384,14 @@
                         });
                     }
                     
-                    return true; // 初始化成功
+                    return true;
                 } catch (e) {
                     console.error('初始化错误:', e);
-                    return false; // 初始化失败
+                    return false;
                 }
             };
             
-            // 隐藏加载动画
+            // 更快的隐藏加载动画
             const hideLoader = () => {
                 clearInterval(progressInterval);
                 progressBar.style.width = '100%';
@@ -401,23 +401,19 @@
                 
                 setTimeout(() => {
                     loader.classList.add('hidden');
-                    
-                    // 初始化非关键资源
                     requestIdleCallback(initNonCritical);
-                }, 300);
+                }, 100);
             };
             
             // 启动关键初始化
             if (initCritical()) {
-                // 关键资源加载成功，延迟隐藏加载动画
-                setTimeout(hideLoader, 800);
+                setTimeout(hideLoader, 300);
             } else {
-                // 关键资源加载失败，延迟隐藏
-                setTimeout(hideLoader, 1500);
+                setTimeout(hideLoader, 800);
             }
             
-            // 最终保障：3秒后强制隐藏
-            setTimeout(hideLoader, 3000);
+            // 最终保障：1.5秒后强制隐藏
+            setTimeout(hideLoader, 1500);
             
             // 安全防护
             document.addEventListener('contextmenu', e => e.preventDefault());
