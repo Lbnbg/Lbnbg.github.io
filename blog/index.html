@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技术博客 - HUIYG.COM</title>
+    <meta name="description" content="HUIYG.COM云计算技术博客文章">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* 博客列表专属样式 */
+        .blog-list {
+            margin-top: 30px;
+            text-align: left;
+        }
+        .blog-card {
+            background: rgba(30, 60, 120, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 3px solid #4fc3f7;
+            transition: all 0.3s;
+        }
+        .blog-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.3);
+        }
+        .blog-title {
+            color: #4fc3f7;
+            margin-bottom: 10px;
+        }
+        .blog-meta {
+            font-size: 0.85rem;
+            color: #b0bec5;
+            margin-bottom: 10px;
+        }
+        .blog-excerpt {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- 共用加载动画 -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-progress"><div id="loaderProgress"></div></div>
+    </div>
+    
+    <!-- 导航栏 -->
+    <nav class="main-nav">
+        <a href="/">首页</a>
+        <a href="/services.html">服务</a>
+        <a href="/about.html">关于</a>
+        <a href="/blog/" class="active">博客</a>
+        <a href="/contact.html">联系</a>
+    </nav>
+    
+    <!-- 粒子背景 -->
+    <div id="particles-js"></div>
+    
+    <!-- 主内容 -->
+    <div class="container">
+        <h1>技术博客</h1>
+        <p>最新云计算技术文章与行业洞察</p>
+        
+        <div class="blog-list">
+            <!-- 文章1 -->
+            <div class="blog-card">
+                <h2 class="blog-title">
+                    <a href="/blog/cloud-computing-benefits.html">云计算的五大核心优势</a>
+                </h2>
+                <div class="blog-meta">
+                    <span>发布日期: 2024-03-15</span> | 
+                    <span>作者: 张工程师</span>
+                </div>
+                <p class="blog-excerpt">深入分析云计算如何降低企业IT成本并提升效率，包含实际案例对比...</p>
+            </div>
+            
+            <!-- 文章2 -->
+            <div class="blog-card">
+                <h2 class="blog-title">
+                    <a href="/blog/cdn-optimization-guide.html">CDN优化完全指南</a>
+                </h2>
+                <div class="blog-meta">
+                    <span>发布日期: 2024-03-10</span> | 
+                    <span>作者: 李架构师</span>
+                </div>
+                <p class="blog-excerpt">从基础配置到高级调优的全方位CDN优化方案，提升网站加载速度300%...</p>
+            </div>
+            
+            <!-- 文章3 -->
+            <div class="blog-card">
+                <h2 class="blog-title">
+                    <a href="/blog/data-security-tips.html">云数据安全防护技巧</a>
+                </h2>
+                <div class="blog-meta">
+                    <span>发布日期: 2024-03-05</span> | 
+                    <span>作者: 王安全专家</span>
+                </div>
+                <p class="blog-excerpt">10个必须掌握的云数据加密与访问控制策略，避免数据泄露风险...</p>
+            </div>
+            
+            <!-- 广告位 -->
+            <div class="ad-container">
+                <div class="ad-label">广告</div>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-8279797322437445"
+                     data-ad-slot="博客列表广告"
+                     data-ad-format="auto"></ins>
+            </div>
+        </div>
+    </div>
+
+    <!-- 共用脚本 -->
+    <script src="/js/main.js"></script>
+    <script src="/js/particles.js"></script>
+    <script src="/ads/adsense.js"></script>
+</body>
+</html>
