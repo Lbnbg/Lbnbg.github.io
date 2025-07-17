@@ -4,17 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HUIYG.COM - 专业云计算服务平台</title>
-    <meta name="description" content="HUIYG.COM提供专业云计算服务解决方案">
-    <!-- 其他meta保持不变 -->
+    <meta name="description" content="HUIYG.COM提供专业云计算服务解决方案，品牌域名开放合作">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☁️</text></svg>">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0c1a3a">
     <style>
-        /* 新增导航栏样式（与动画风格协调） */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        html { scroll-behavior: smooth; }
+        body {
+            color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; 
+            text-align: center; padding: 20px; overflow-x: hidden; position: relative;
+            background: linear-gradient(135deg, #0c1a3a, #1a2a6c, #0c1a3a);
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(10, 20, 40, 0.5); }
+        ::-webkit-scrollbar-thumb { background: #4fc3f7; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #29b6f6; }
+        
+        /* 新增导航栏样式 */
         .main-nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(12, 26, 58, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(12, 26, 58, 0.85);
+            backdrop-filter: blur(8px);
             padding: 15px 0;
             z-index: 1000;
             display: flex;
@@ -28,25 +43,188 @@
             font-weight: 500;
             font-size: 1.1rem;
             transition: all 0.3s;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 5px 15px;
+            border-radius: 20px;
         }
         .main-nav a:hover, .main-nav a.active {
             color: #4fc3f7;
+            background: rgba(79, 195, 247, 0.15);
             text-shadow: 0 0 10px rgba(79, 195, 247, 0.7);
         }
         
-        /* 微调容器位置（为导航栏留出空间） */
+        #particles-js { 
+            position: fixed; 
+            width: 100%; 
+            height: 100%; 
+            top: 0; 
+            left: 0; 
+            z-index: 0; 
+        }
+        
+        .loader {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #0c1a3a;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .loader.hidden { opacity: 0; visibility: hidden; }
+        .loader-spinner {
+            width: 75px; 
+            height: 75px; 
+            border: 5px solid rgba(79, 195, 247, 0.3);
+            border-radius: 50%; 
+            border-top-color: #4fc3f7; 
+            animation: spin 1s ease-in-out infinite;
+        }
+        .loader-progress {
+            width: 80%; 
+            max-width: 300px; 
+            height: 4px; 
+            background: rgba(79, 195, 247, 0.2);
+            margin-top: 20px; 
+            border-radius: 2px; 
+            overflow: hidden;
+        }
+        .loader-progress-bar {
+            height: 100%; 
+            width: 0%; 
+            background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+            transition: width 0.2s;
+        }
+        
         .container {
-            margin-top: 80px; /* 导航栏高度补偿 */
-            /* 其他原有样式保持不变 */
+            max-width: 800px; 
+            background: rgba(10, 20, 40, 0.85); 
+            padding: 30px; 
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); 
+            position: relative; 
+            z-index: 10;
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(79, 195, 247, 0.3); 
+            margin: 80px 20px 20px;
+        }
+        
+        h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem); 
+            margin-bottom: 20px; 
+            color: #4fc3f7;
+            text-shadow: 0 0 10px rgba(79, 195, 247, 0.7); 
+            background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo {
+            font-size: clamp(3rem, 10vw, 5rem); 
+            margin-bottom: 20px; 
+            color: #4fc3f7;
+            text-shadow: 0 0 15px rgba(79, 195, 247, 0.9); 
+            animation: pulse 2s infinite;
+        }
+        
+        .highlight { color: #4fc3f7; font-weight: bold; }
+        
+        .services-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px; 
+            margin: 25px 0;
+        }
+        
+        .service-card {
+            background: rgba(30, 60, 120, 0.4); 
+            padding: 20px; 
+            border-radius: 10px;
+            transition: all 0.3s ease; 
+            border: 1px solid rgba(79, 195, 247, 0.2);
+        }
+        .service-card:hover {
+            transform: translateY(-5px); 
+            background: rgba(30, 60, 120, 0.6);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.3);
+        }
+        
+        .service-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        
+        .domain-notice {
+            background: rgba(16, 42, 92, 0.6); 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-top: 25px;
+            border: 1px solid rgba(79, 195, 247, 0.5); 
+            position: relative;
+        }
+        
+        footer { 
+            margin: 30px 0 0; 
+            font-size: 0.9rem; 
+            color: #b0bec5; 
+            padding-top: 15px; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+        }
+        
+        .back-to-top {
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            width: 50px; 
+            height: 50px;
+            background: rgba(79, 195, 247, 0.7); 
+            border-radius: 50%; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            cursor: pointer; 
+            opacity: 0;
+            visibility: hidden; 
+            transition: all 0.3s; 
+            z-index: 100; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+        .back-to-top:hover { background: rgba(79, 195, 247, 0.9); transform: translateY(-3px); }
+        .back-to-top::after { content: "↑"; color: white; font-size: 24px; font-weight: bold; }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 
+            0% { transform: scale(1); } 
+            50% { transform: scale(1.05); } 
+            100% { transform: scale(1); } 
+        }
+        @keyframes borderPulse { 
+            0% { opacity: 0.3; } 
+            50% { opacity: 0.8; } 
+            100% { opacity: 0.3; } 
+        }
+        
+        @media (max-width: 768px) {
+            .main-nav { gap: 10px; padding: 10px 0; }
+            .main-nav a { font-size: 0.9rem; padding: 5px 10px; }
+            .container { padding: 20px; margin-top: 60px; }
+            .logo { margin-bottom: 15px; }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            .back-to-top { width: 40px; height: 40px; right: 20px; bottom: 20px; }
+        }
+        
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .container { margin: 60px 10px 10px; padding: 15px; }
+            .main-nav { gap: 8px; font-size: 0.8rem; }
+            .services-grid { grid-template-columns: 1fr; }
         }
     </style>
-    <!-- 原有样式表链接 -->
-    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- ======= 新增导航栏 ======= -->
+    <!-- 固定导航栏 -->
     <nav class="main-nav">
         <a href="/" class="active">首页</a>
         <a href="/services.html">服务</a>
@@ -55,7 +233,7 @@
         <a href="/contact.html">联系</a>
     </nav>
 
-    <!-- ======= 保持原有动画结构 ======= -->
+    <!-- 加载动画 -->
     <div class="loader" id="loader">
         <div class="loader-spinner"></div>
         <div class="loader-progress">
@@ -63,34 +241,181 @@
         </div>
     </div>
     
-    <div class="protect-overlay" id="protectOverlay"></div>
+    <!-- 粒子背景 -->
     <div id="particles-js"></div>
     
+    <!-- 主内容容器 -->
     <div class="container">
-        <!-- 原有内容完全保持不变 -->
         <div class="logo">☁️</div>
         <h1>欢迎访问 HUIYG.COM</h1>
         <p>专业的 <span class="highlight">云计算服务平台</span> 即将上线</p>
+        <p>我们正在构建强大的云服务解决方案</p>
         
-        <!-- 原有服务网格 -->
         <div class="services-grid">
             <div class="service-card">
                 <div class="service-icon">🖥️</div>
                 <h3>云服务器</h3>
                 <p>高性能计算实例，弹性伸缩</p>
             </div>
-            <!-- 其他卡片... -->
+            <div class="service-card">
+                <div class="service-icon">🗄️</div>
+                <h3>云存储</h3>
+                <p>安全可靠的数据存储服务</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🌐</div>
+                <h3>CDN加速</h3>
+                <p>全球节点，极速内容分发</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔒</div>
+                <h3>云安全</h3>
+                <p>全方位网络安全防护</p>
+            </div>
         </div>
         
-        <!-- 原有页脚 -->
+        <div class="domain-notice">
+            <p><strong>品牌域名合作机会</strong></p>
+            <p>HUIYG.COM 开放合作或转让</p>
+            <p>适合：云计算/跨境电商/科技品牌</p>
+        </div>
+        
         <footer>
-            <p>© 2015-2024 HUIYG.COM</p>
-            <p id="loadTime">页面加载完成耗时: 0 ms</p>
+            <p>© 2015-2024 HUIYG.COM - <a href="/privacy.html" style="color: #b0bec5;">隐私政策</a></p>
+            <p style="font-size:0.8rem; margin-top:5px;">页面加载完成耗时: <span id="loadTime">0</span> ms</p>
         </footer>
     </div>
 
-    <!-- 原有JS引用保持不变 -->
-    <script src="/js/main.js"></script>
-    <script src="/js/particles.js"></script>
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top" id="backToTop"></div>
+
+    <script>
+        // 加载动画控制
+        document.addEventListener('DOMContentLoaded', () => {
+            const startTime = performance.now();
+            const loader = document.getElementById('loader');
+            const progressBar = document.getElementById('loaderProgress');
+            
+            // 模拟加载进度
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 30;
+                if(progress > 90) clearInterval(progressInterval);
+                progressBar.style.width = `${Math.min(progress, 100)}%`;
+            }, 50);
+
+            // 返回顶部按钮
+            const backToTop = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                backToTop.classList.toggle('visible', window.scrollY > 300);
+            });
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // 导航栏当前页面高亮
+            document.querySelectorAll('.main-nav a').forEach(link => {
+                if (link.href === window.location.href) {
+                    link.classList.add('active');
+                }
+            });
+
+            // 隐藏加载动画
+            setTimeout(() => {
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    document.getElementById('loadTime').textContent = 
+                        Math.round(performance.now() - startTime);
+                }, 100);
+            }, 800);
+        });
+
+        // 粒子效果
+        class Particles {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                if (!this.canvas) return;
+                
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.init();
+            }
+            
+            init() {
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
+                
+                // 创建粒子
+                const particleCount = window.innerWidth < 768 ? 30 : 50;
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push(this.createParticle());
+                }
+                
+                this.animate();
+            }
+            
+            createParticle() {
+                return {
+                    x: Math.random() * this.canvas.width,
+                    y: Math.random() * this.canvas.height,
+                    size: Math.random() * 2 + 1,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    color: `rgba(79, 195, 247, ${Math.random() * 0.5 + 0.1})`,
+                    life: Math.random() * 300 + 100
+                };
+            }
+            
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // 更新并绘制粒子
+                this.particles.forEach(p => {
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                    p.life--;
+                    
+                    if (p.life <= 0 || p.x < 0 || p.x > this.canvas.width || p.y < 0 || p.y > this.canvas.height) {
+                        Object.assign(p, this.createParticle());
+                    }
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = p.color;
+                    this.ctx.fill();
+                });
+                
+                // 绘制连接线
+                for (let i = 0; i < this.particles.length; i++) {
+                    for (let j = i + 1; j < this.particles.length; j++) {
+                        const p1 = this.particles[i];
+                        const p2 = this.particles[j];
+                        const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+                        
+                        if (distance < 150) {
+                            this.ctx.beginPath();
+                            this.ctx.strokeStyle = `rgba(79, 195, 247, ${0.2 * (1 - distance/150)})`;
+                            this.ctx.lineWidth = 0.5;
+                            this.ctx.moveTo(p1.x, p1.y);
+                            this.ctx.lineTo(p2.x, p2.y);
+                            this.ctx.stroke();
+                        }
+                    }
+                }
+                
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // 初始化粒子效果
+        new Particles('particles-js');
+    </script>
 </body>
 </html>
