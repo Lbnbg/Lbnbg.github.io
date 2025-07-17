@@ -1,1 +1,74 @@
+/* 基础样式 */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+html { scroll-behavior: smooth; }
+body {
+    color: #fff; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; 
+    text-align: center; padding: 20px; overflow-x: hidden; position: relative;
+    background: linear-gradient(135deg, #0c1a3a, #1a2a6c, #0c1a3a);
+}
 
+/* 导航栏 */
+.main-nav {
+    background: rgba(10, 20, 40, 0.9);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.main-nav a {
+    color: #b0bec5;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+.main-nav a:hover, .main-nav a.active {
+    color: #4fc3f7;
+    background: rgba(79, 195, 247, 0.1);
+}
+
+/* 容器样式 */
+.container {
+    max-width: 800px; 
+    background: rgba(10, 20, 40, 0.85); 
+    padding: 30px; 
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); 
+    position: relative; 
+    z-index: 10;
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(79, 195, 247, 0.3); 
+    margin: 20px;
+}
+
+/* 广告容器 */
+.ad-container {
+    margin: 20px auto; 
+    max-width: 728px; 
+    min-height: 90px; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    background: rgba(30, 60, 120, 0.4);
+    border-radius: 8px; 
+    padding: 10px; 
+    position: relative;
+}
+.ad-label {
+    position: absolute; 
+    top: 5px; 
+    right: 5px; 
+    font-size: 0.7rem; 
+    color: #b0bec5;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container { padding: 20px; }
+    .main-nav { flex-direction: column; gap: 10px; }
+}
